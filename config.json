@@ -1,7 +1,7 @@
 {
 	"apiEndpoint": "https://testnet-service.lisk.io/api/v2/",
 	"interactive": true,
-	"delegateName": "gr33ndrag0n",
+	"delegateName": "dakk",
 	"sharingPercentage": 15,
 	"minPayout": 0.1,
 	"blackList": [],

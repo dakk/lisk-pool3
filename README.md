@@ -1,9 +1,31 @@
 # Lisk pool distribution software (v3)
 
+Redistribution software for Lisk delegate on mainnet (and testnet) after the migration to Lisk3. 
+
+**Still WIP, use at your own risk***
+
 
 ## Configuration
 Fork this repo; edit config.json and modify the first lines with your settings:
 
+```js
+{
+	"apiEndpoint": "https://testnet-service.lisk.io/api/v2/",   // Node uri
+	"interactive": true,                                        // Ask for confirmation
+	"delegateName": "dakk",                                     // Delegate name      
+	"sharingPercentage": 15,                                    // % of sharing
+	"minPayout": 0.1,                                           // Minimum payout
+	"blackList": [],                                            // Blacklist
+	"poolState": "poollogs.json",                               // Where to save pool state
+	"paymentsFile": "payments.sh"                               // Where to save payments commands
+}
+```
+
+## Run
+
+```bash
+python liskpool3.py
+```
 
 ## License
 
