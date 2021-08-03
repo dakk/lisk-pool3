@@ -99,7 +99,7 @@ def savePoolState(conf, pstate):
 		return
 
 	f = open (conf['poolState'], 'w')
-	f.write(json.dumps(pstate))
+	f.write(json.dumps(pstate, indent=4))
 	f.close()
 	print ('Saved to %s' % (conf['poolState']))
 
@@ -152,7 +152,7 @@ def getForgedSinceLastPayout(conf, pstate):
 		'producedBlocks': int(acc['producedBlocks'])
 	}
 	
-	print ('%d produced blocks since last payout, %d lsk to pay' % (dBlocks, toPay / 100000000.))	
+	print ('%d produced blocks since last payout, %.8f lsk to pay' % (dBlocks, toPay / 100000000.))	
 	return toPay, pstate
 	
 def calculateRewards(conf, pstate, votes, pendingRewards):
@@ -176,7 +176,7 @@ def payPendings(conf, pstate):
 	paylist = []
 	
 	for x in pstate['pending']:
-		if pstate['pending'][x] > conf['minPayout']:
+		if pstate['pending'][x] > conf['minPayout'] * 100000000:
 			paylist.append([x, pstate['pending'][x]])
 			
 			if not (x in pstate['paid']):
@@ -197,7 +197,7 @@ def paymentCommandForLiskCore(address, amount):
 
 	
 def savePayments(conf, topay):
-	st = ['read PASSPHRASE']
+	st = ['echo Write passphrase: ', 'read PASSPHRASE']
 	for x in topay:
 		st.append(paymentCommandForLiskCore(x[0], x[1]))
 
@@ -230,7 +230,7 @@ def main():
 
 	print('===========')
 	for x in topay:
-		print('%s => %d lsk' % (x[0], x[1] / 100000000.))
+		print('%s => %.8f lsk' % (x[0], x[1] / 100000000.))
 	print('===========')
 	
 	# Ask confirmations for payments
