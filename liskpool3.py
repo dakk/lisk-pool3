@@ -146,11 +146,16 @@ def getForgedSinceLastPayout(conf, pstate):
 	
 	toPay = int(acc['rewards']) - int(pstate['lastPayout']['rewards'])
 	dBlocks = int(acc['producedBlocks']) - int(pstate['lastPayout']['producedBlocks'])
-	pstate['lastPayout'] = {
-		'date': int (time.time ()),
-		'rewards': int(acc['rewards']),
-		'producedBlocks': int(acc['producedBlocks'])
-	}
+
+	if toPay <= 0 or dBlocks <= 0:
+		toPay = 0
+		dBlocks = 0
+	else:
+		pstate['lastPayout'] = {
+			'date': int (time.time ()),
+			'rewards': int(acc['rewards']),
+			'producedBlocks': int(acc['producedBlocks'])
+		}
 	
 	print ('%d produced blocks since last payout, %.8f lsk to pay' % (dBlocks, toPay / 100000000.))	
 	return toPay, pstate
