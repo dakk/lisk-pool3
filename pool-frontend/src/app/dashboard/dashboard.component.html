@@ -10,7 +10,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content dashboard-value s1">
-          <mat-chip-list><mat-chip color="primary" selected>{{config.delegateName}}</mat-chip></mat-chip-list>
+          <mat-chip-list><mat-chip color="primary" selected>{{config.delegateName}}</mat-chip><mat-chip color="primary" selected>Sharing {{config.sharingPercentage}}%</mat-chip></mat-chip-list>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -32,11 +32,11 @@
     <mat-card class="dashboard-card">
       <mat-card-header>
         <mat-card-title>
-          Blocks Produced
+          Blocks Produced / Lsk Forged
         </mat-card-title>
       </mat-card-header>
       <mat-card-content class="dashboard-card-content dashboard-value s3">
-        <mat-chip-list><mat-chip color="accent" selected>{{poolLogs.lastPayout.producedBlocks}}</mat-chip></mat-chip-list>
+        <mat-chip-list><mat-chip color="accent" selected>{{poolLogs.lastPayout.producedBlocks}}</mat-chip> / <mat-chip color="accent" selected>{{poolLogs.lastPayout.rewards/100000000|number}} lsk</mat-chip></mat-chip-list>
       </mat-card-content>
     </mat-card>
   </mat-grid-tile>
