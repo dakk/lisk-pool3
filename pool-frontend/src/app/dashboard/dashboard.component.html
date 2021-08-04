@@ -1,24 +1,126 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard {{config.delegateName}} Lisk Delegate</h1>
-  <mat-grid-list cols="2" rowHeight="350px">
-    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+  <mat-grid-list cols="3" rowHeight="150px">
+
+    <mat-grid-tile [colspan]="(cards|async)?.s1?.cols" [rowspan]="(cards|async)?.s1?.rows">
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
-            {{card.title}}
-            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-              <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu" xPosition="before">
-              <button mat-menu-item>Expand</button>
-              <button mat-menu-item>Remove</button>
-            </mat-menu>
+            Delegate
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Here</div>
+        <mat-card-content class="dashboard-card-content dashboard-value s1">
+          <mat-chip-list><mat-chip color="primary" selected>{{config.delegateName}}</mat-chip></mat-chip-list>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="(cards|async)?.s2?.cols" [rowspan]="(cards|async)?.s2?.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Last Update
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content dashboard-value s2">
+          <mat-chip-list><mat-chip color="warn" selected>{{poolLogs.lastPayout.date*1000|date:'medium'}}</mat-chip></mat-chip-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="(cards|async)?.s3?.cols" [rowspan]="(cards|async)?.s3?.rows">
+    <mat-card class="dashboard-card">
+      <mat-card-header>
+        <mat-card-title>
+          Blocks Produced
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dashboard-card-content dashboard-value s3">
+        <mat-chip-list><mat-chip color="accent" selected>{{poolLogs.lastPayout.producedBlocks}}</mat-chip></mat-chip-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+
+  <mat-grid-list cols="2" rowHeight="350px">
+    <mat-grid-tile [colspan]="(cards|async)?.history?.cols" [rowspan]="(cards|async)?.history?.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Payouts History
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <table mat-table [dataSource]="poolLogs.history">
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> Date </th>
+              <td mat-cell *matCellDef="let element"> {{element.date*1000|date:'medium'}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="userPaid">
+              <th mat-header-cell *matHeaderCellDef> Users paid </th>
+              <td mat-cell *matCellDef="let element"> {{element.userPaid}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="rewards">
+              <th mat-header-cell *matHeaderCellDef> Rewards (lsk)</th>
+              <td mat-cell *matCellDef="let element"> {{element.rewards/100000000|number}} </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedHistoryColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedHistoryColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+
+    <mat-grid-tile [colspan]="(cards|async)?.balances?.cols" [rowspan]="(cards|async)?.balances?.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            Balances
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <table mat-table [dataSource]="balances">
+            <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="address">
+              <th mat-header-cell *matHeaderCellDef> Address </th>
+              <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="pending">
+              <th mat-header-cell *matHeaderCellDef> Pending Reward (lsk)</th>
+              <td mat-cell *matCellDef="let element"> {{element.pending/100000000|number}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="rewards">
+              <th mat-header-cell *matHeaderCellDef> Paid Rewards (lsk)</th>
+              <td mat-cell *matCellDef="let element"> {{element.rewards/100000000|number}} </td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedBalanceColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedBalanceColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+
+
   </mat-grid-list>
 </div>

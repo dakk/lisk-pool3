@@ -27,6 +27,22 @@ Fork this repo; edit config.json and modify the first lines with your settings:
 python liskpool3.py
 ```
 
+
+## Frontend
+
+The software has a tiny frontend written in angular. In order to create and update it:
+
+```bash
+npm install -g @angular/cli
+```
+
+And update with:
+
+```bash
+bash update_frontend.sh
+```
+
+
 ## License
 
 ```
