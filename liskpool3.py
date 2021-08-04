@@ -196,7 +196,7 @@ def payPendings(conf, pstate):
 	return pstate, paylist
 
 def paymentCommandForLiskCore(address, amount):
-	FEE = 100000
+	FEE = '100000'
 
 	return '\n'.join([
 		'TXC=`lisk-core transaction:create 2 0 %s --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "Dakk payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, amount, addressToBinary(address)),
