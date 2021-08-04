@@ -22,9 +22,9 @@ export class DashboardComponent {
     map(({ matches }) => {
       if (matches) {
         return {
-          s1: { cols: 2, rows: 1 },
-          s2: { cols: 2, rows: 1 },
-          s3: { cols: 2, rows: 1 },
+          s1: { cols: 3, rows: 1 },
+          s2: { cols: 3, rows: 1 },
+          s3: { cols: 3, rows: 1 },
           history: { cols: 2, rows: 1 },
           balances: { cols: 2, rows: 1 },
         };
