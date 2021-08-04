@@ -3,7 +3,7 @@
 	"interactive": true,
 	"delegateName": "dakk",
 	"sharingPercentage": 15,
-	"minPayout": 0.1,
+	"minPayout": 0.0,
 	"blackList": [],
 	"poolState": "poollogs.json",
 	"paymentsFile": "payments.sh"

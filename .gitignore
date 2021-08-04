@@ -131,3 +131,4 @@ dmypy.json
 ./poollogs.json
 pool-frontend/src/assets/config.json
 pool-frontend/src/assets/poollogs.json
+payments.sh
