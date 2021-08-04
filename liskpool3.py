@@ -195,11 +195,11 @@ def payPendings(conf, pstate):
 				
 	return pstate, paylist
 
-def paymentCommandForLiskCore(address, amount):
+def paymentCommandForLiskCore(conf, address, amount):
 	FEE = '100000'
 
 	return '\n'.join([
-		'TXC=`lisk-core transaction:create 2 0 %s --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "Dakk payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, amount, addressToBinary(address)),
+		'TXC=`lisk-core transaction:create 2 0 %s --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, conf['delegateName'], amount, addressToBinary(address)),
 		'echo $TXC',
 		'lisk-core transaction:send `echo $TXC|jq .transaction -r`'
 	])
@@ -208,7 +208,7 @@ def paymentCommandForLiskCore(address, amount):
 def savePayments(conf, topay):
 	st = ['echo Write passphrase: ', 'read PASSPHRASE']
 	for x in topay:
-		st.append(paymentCommandForLiskCore(x[0], x[1]))
+		st.append(paymentCommandForLiskCore(conf, x[0], x[1]))
 
 	s = '\n'.join(st)
 	
