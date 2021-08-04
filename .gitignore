@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 poollogs.json
+pool-frontend/src/assets/config.json
+pool-frontend/src/assets/poollogs.json

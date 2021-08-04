@@ -1,0 +1,10 @@
+{
+	"apiEndpoint": "https://testnet-service.lisk.io/api/v2/",
+	"interactive": true,
+	"delegateName": "dakk",
+	"sharingPercentage": 15,
+	"minPayout": 0.1,
+	"blackList": [],
+	"poolState": "poollogs.json",
+	"paymentsFile": "payments.sh"
+}
