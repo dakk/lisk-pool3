@@ -131,7 +131,7 @@ def loadPoolState(conf):
 		
 		
 def getVotesPercentages(conf):
-	votes = r(conf, 'votes_received?limit=100&offset=0&username=' + conf['delegateName'])['data']['votes']
+	votes = r(conf, 'votes_received?limit=100&offset=0&aggregate=true&username=' + conf['delegateName'])['data']['votes']
 	totalVotes = reduce(lambda x,y: x + int(y['amount']), votes, 0)
 
 	def votePercentage(v):
@@ -160,7 +160,7 @@ def calculateRewards(conf, pstate, votes, pendingRewards):
 		top = int(pendingRewards * x['percentage'] / 100.)
 		
 		if 'username' in x and x['username'] == conf['delegateName']:
-			print ('Delegate %s got %.8f lsk of reward' % (x['username'], top/100000000.))
+			print ('Delegate %s got %.8f lsk of reward' % (x['username'], top / 100000000.))
 
 			if not (x['address'] in pstate['paid']):
 				pstate['paid'][x['address']] = top
