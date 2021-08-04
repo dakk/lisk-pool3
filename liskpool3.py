@@ -157,11 +157,11 @@ def getForgedSinceLastPayout(conf, pstate):
 	
 def calculateRewards(conf, pstate, votes, pendingRewards):
 	for x in votes:
-		top = int(pendingRewards * x['percentage'])
+		top = int(pendingRewards * x['percentage'] / 100.)
 		
 		if 'username' in x and x['username'] == conf['delegateName']:
 			print ('Delegate %s got %.8f lsk of reward' % (x['username'], top/100000000.))
-			
+
 			if not (x['address'] in pstate['paid']):
 				pstate['paid'][x['address']] = top
 			else:
