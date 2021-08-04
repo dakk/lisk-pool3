@@ -135,7 +135,7 @@ def getVotesPercentages(conf):
 	totalVotes = reduce(lambda x,y: x + int(y['amount']), votes, 0)
 
 	def votePercentage(v):
-		v['percentage'] = int(v['amount']) * 100 / totalVotes
+		v['percentage'] = int(v['amount']) * 100. / float(totalVotes)
 		return v
 		
 	votes = list(map(votePercentage, votes))
@@ -160,6 +160,8 @@ def calculateRewards(conf, pstate, votes, pendingRewards):
 		top = int(pendingRewards * x['percentage'])
 		
 		if 'username' in x and x['username'] == conf['delegateName']:
+			print ('Delegate %s got %.8f lsk of reward' % (x['username'], top/100000000.))
+			
 			if not (x['address'] in pstate['paid']):
 				pstate['paid'][x['address']] = top
 			else:
@@ -176,7 +178,7 @@ def payPendings(conf, pstate):
 	paylist = []
 	
 	for x in pstate['pending']:
-		if pstate['pending'][x] > conf['minPayout'] * 100000000:
+		if pstate['pending'][x] > int (conf['minPayout'] * 100000000):
 			paylist.append([x, pstate['pending'][x]])
 			
 			if not (x in pstate['paid']):
@@ -217,7 +219,7 @@ def main():
 	votes = getVotesPercentages(conf)
 	pendingRewards, pstate = getForgedSinceLastPayout(conf, pstate)
 	
-	pendingRewards *= conf['sharingPercentage'] / 100.
+	pendingRewards = int(pendingRewards * conf['sharingPercentage'] / 100.)
 	
 	pstate = calculateRewards(conf, pstate, votes, pendingRewards)
 	pstate, topay = payPendings(conf, pstate)
