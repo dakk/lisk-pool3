@@ -1,10 +1,12 @@
 {
-	"apiEndpoint": "https://testnet-service.lisk.io/api/v2/",
-	"interactive": true,
-	"delegateName": "dakk",
-	"sharingPercentage": 15,
-	"minPayout": 0.0,
-	"blackList": [],
-	"poolState": "poollogs.json",
-	"paymentsFile": "payments.sh"
+  "apiEndpoint": "https://testnet-service.lisk.io/api/v2/",
+  "network": "testnet",
+  "networkIdentifier": "15f0dacc1060e91818224a94286b13aa04279c640bd5d6f193182031d133df7c",
+  "interactive": true,
+  "delegateName": "dakk",
+  "sharingPercentage": 15,
+  "minPayout": 0.0,
+  "blackList": [],
+  "poolState": "poollogs.json",
+  "paymentsFile": "payments.sh"
 }
