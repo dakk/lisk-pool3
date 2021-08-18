@@ -199,14 +199,19 @@ def paymentCommandForLiskCore(conf, address, amount):
 	FEE = '100000'
 
 	return '\n'.join([
-		'TXC=`lisk-core transaction:create 2 0 %s --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, conf['delegateName'], amount, addressToBinary(address)),
+		'TXC=`lisk-core transaction:create 2 0 %s --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, conf['delegateName'], amount, addressToBinary(address)),
 		'echo $TXC',
+		'NONCE=$(($NONCE+1))'
 		'lisk-core transaction:send `echo $TXC|jq .transaction -r`'
 	])
 
 	
 def savePayments(conf, topay):
 	st = ['echo Write passphrase: ', 'read PASSPHRASE']
+
+	# Calculate initial nonce
+	st.append('NONCE=`lisk-core account:get ff417c04e5aefa02d144a326cb94d1b1bdac4cb6 | jq ".sequence.nonce" -r`')
+
 	for x in topay:
 		st.append(paymentCommandForLiskCore(conf, x[0], x[1]))
 
