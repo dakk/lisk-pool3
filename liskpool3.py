@@ -178,6 +178,11 @@ def calculateRewards(conf, pstate, votes, pendingRewards):
 			else:
 				pstate['pending'][x['address']] += top
 	return pstate
+
+def getAccountNonce(conf):
+	nonce = r(conf, 'accounts?username=' + conf['delegateName'])['data'][0]['sequence']['nonce']
+
+	return int(nonce)
 	
 def payPendings(conf, pstate):
 	paylist = []
@@ -195,20 +200,23 @@ def payPendings(conf, pstate):
 				
 	return pstate, paylist
 
-def paymentCommandForLiskCore(conf, address, amount):
-	FEE = '100000'
+def paymentCommandForLiskCore(conf, address, amount, nonce):
+	FEE = '200000'
 
 	return '\n'.join([
-		'TXC=`lisk-core transaction:create 2 0 %s --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, conf['delegateName'], amount, addressToBinary(address)),
+		'TXC=`lisk-core transaction:create 2 0 %s --passphrase="\`echo $PASSPHRASE\`" --nonce %s --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, nonce, conf['delegateName'], amount, addressToBinary(address)),
 		'echo $TXC',
 		'lisk-core transaction:send `echo $TXC|jq .transaction -r`'
 	])
 
 	
 def savePayments(conf, topay):
+	nonce = getAccountNonce(conf)
+
 	st = ['echo Write passphrase: ', 'read PASSPHRASE']
 	for x in topay:
-		st.append(paymentCommandForLiskCore(conf, x[0], x[1]))
+		nonce += 1
+		st.append(paymentCommandForLiskCore(conf, x[0], x[1], nonce))
 
 	s = '\n'.join(st)
 	
