@@ -35,6 +35,11 @@ from functools import reduce
 DEBUG = False
 DRY_RUN = False
 
+NETWORKS = {
+	'testnet': '15f0dacc1060e91818224a94286b13aa04279c640bd5d6f193182031d133df7c',
+	'mainnet': 'notyetknow'
+}
+
 
 if sys.version_info[0] < 3:
 	print ('python2 not supported, please use python3')
@@ -196,10 +201,11 @@ def payPendings(conf, pstate):
 	return pstate, paylist
 
 def paymentCommandForLiskCore(conf, address, amount):
-	FEE = '100000'
+	FEE = '200000'
 
 	return '\n'.join([
-		'TXC=`lisk-core transaction:create 2 0 %s --offline --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, conf['delegateName'], amount, addressToBinary(address)),
+		'TXC=`lisk-core transaction:create 2 0 %s --offline --network %s --network-identifier %s --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' 
+			% (FEE, conf['network'], NETWORKS[conf['network']], conf['delegateName'], amount, addressToBinary(address)),
 		'echo $TXC',
 		'NONCE=$(($NONCE+1))'
 		'lisk-core transaction:send `echo $TXC|jq .transaction -r`'
