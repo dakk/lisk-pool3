@@ -199,7 +199,7 @@ def paymentCommandForLiskCore(conf, address, amount):
 	FEE = '100000'
 
 	return '\n'.join([
-		'TXC=`lisk-core transaction:create 2 0 %s --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, conf['delegateName'], amount, addressToBinary(address)),
+		'TXC=`lisk-core transaction:create 2 0 %s --offline --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' % (FEE, conf['delegateName'], amount, addressToBinary(address)),
 		'echo $TXC',
 		'NONCE=$(($NONCE+1))'
 		'lisk-core transaction:send `echo $TXC|jq .transaction -r`'
