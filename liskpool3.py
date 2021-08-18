@@ -215,8 +215,8 @@ def savePayments(conf, topay):
 
 	st = ['echo Write passphrase: ', 'read PASSPHRASE']
 	for x in topay:
-		nonce += 1
 		st.append(paymentCommandForLiskCore(conf, x[0], x[1], nonce))
+		nonce += 1
 
 	s = '\n'.join(st)
 	
