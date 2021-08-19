@@ -207,7 +207,7 @@ def paymentCommandForLiskCore(conf, address, amount):
 		'TXC=`lisk-core transaction:create 2 0 %s --offline --network %s --network-identifier %s --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' 
 			% (FEE, conf['network'], NETWORKS[conf['network']], conf['delegateName'], amount, addressToBinary(address)),
 		'echo $TXC',
-		'NONCE=$(($NONCE+1))'
+		'NONCE=$(($NONCE+1))',
 		'lisk-core transaction:send `echo $TXC|jq .transaction -r`'
 	])
 
