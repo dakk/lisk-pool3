@@ -114,7 +114,7 @@ def loadPoolState(conf):
 	try:
 		pstate = json.load (open (conf['poolState'], 'r'))
 	except:
-		print ('Unable to load config file. Initializing...')
+		print ('Unable to load pool state file. Initializing...')
 		pstate = {
 			"lastPayout": {
 				"date": 0,
@@ -137,7 +137,13 @@ def loadPoolState(conf):
 		
 def getVotesPercentages(conf):
 	votes = r(conf, 'votes_received?limit=100&offset=0&aggregate=true&username=' + conf['delegateName'])['data']['votes']
-	votes = [x for x in votes if ('username' not in x ) or ('username' in x and x['username'] != conf['delegateName'])]
+	
+	if not conf['includeSelfStake']:
+		votes = [x for x in votes if ('username' not in x ) or ('username' in x and x['username'] != conf['delegateName'])]
+
+	# Remove addresses from blacklist
+	votes = [x for x in votes if x['address'] not in conf['blackList']]
+
 	totalVotes = reduce(lambda x,y: x + int(y['amount']), votes, 0)
 
 	def votePercentage(v):

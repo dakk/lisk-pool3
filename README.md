@@ -16,9 +16,10 @@ Fork this repo; edit config.json and modify the first lines with your settings:
 	"delegateName": "dakk",                                     // Delegate name      
 	"sharingPercentage": 15,                                    // % of sharing
 	"minPayout": 0.1,                                           // Minimum payout
-	"blackList": [],                                            // Blacklist
+	"blackList": [],                                            // Addresses to skip
 	"poolState": "poollogs.json",                               // Where to save pool state
-	"paymentsFile": "payments.sh"                               // Where to save payments commands
+	"paymentsFile": "payments.sh",                              // Where to save payments commands
+	"includeSelfStake": false									// True if we want to include selfstake in distribution calculations
 }
 ```
 

@@ -7,5 +7,6 @@
 	"minPayout": 0.01,
 	"blackList": [],
 	"poolState": "poollogs.json",
-	"paymentsFile": "payments.sh"
+	"paymentsFile": "payments.sh",
+	"includeSelfStake": false
 }
