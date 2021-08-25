@@ -34,6 +34,7 @@ from functools import reduce
 
 DEBUG = False
 DRY_RUN = False
+ONLY_UPDATE = False
 
 NETWORKS = {
 	'testnet': '15f0dacc1060e91818224a94286b13aa04279c640bd5d6f193182031d133df7c',
@@ -73,7 +74,10 @@ def parseArgs():
 		           help='automatic yes for log saving (default: no)')
 	parser.add_argument('--dry-run', dest='dryrun', action='store_const',
 		           default=False, const=True,
-		           help='Dry run (default: no)')
+		           help='dry run (default: no)')
+	parser.add_argument('--only-update', dest='onlyupdate', action='store_const',
+		           default=False, const=True,
+		           help='only update pendings (default: no)')
 	parser.add_argument('--min-payout', type=float, dest='minpayout', action='store',
 		           default=None,
 		           help='override the minpayout value from config file')
@@ -93,6 +97,10 @@ def parseArgs():
 
 	if args.dryrun != None:
 		DRY_RUN = args.dryrun
+
+	if args.onlyupdate != None:
+		print ("Only updating pendings")
+		ONLY_UPDATE = args.onlyupdate
 		
 	if args.alwaysyes:
 		conf['interactive'] = not args.alwaysyes
@@ -195,7 +203,7 @@ def payPendings(conf, pstate):
 	paylist = []
 	
 	for x in pstate['pending']:
-		if pstate['pending'][x] > int (conf['minPayout'] * 100000000):
+		if (not ONLY_UPDATE) and pstate['pending'][x] > int (conf['minPayout'] * 100000000):
 			paylist.append([x, pstate['pending'][x]])
 			
 			if not (x in pstate['paid']):
@@ -270,7 +278,7 @@ def main():
 	pstate, topay = payPendings(conf, pstate)
 	
 	# Show topay
-	if len(topay) == 0:
+	if len(topay) == 0 and (not ONLY_UPDATE):
 		savePoolState(conf, pstate)
 		print ('Nothing to pay. Exiting...')
 		return
@@ -282,7 +290,7 @@ def main():
 	
 	# Ask confirmations for payments
 	yes = True
-	if conf['interactive']:
+	if conf['interactive'] and (not ONLY_UPDATE):
 		yes = input ('Confirm? y/n: ').lower() == 'y'
 
 	if not yes:
@@ -290,14 +298,15 @@ def main():
 		return
 		
 	# Save payments
-	savePayments(conf, topay)
+	if not ONLY_UPDATE:
+		savePayments(conf, topay)
 	
-	# Save state
-	pstate['history'].append({
-		'date': int(time.time()),
-		'userPaid': len(topay),
-		'rewards': pendingRewards
-	})
+		# Save state
+		pstate['history'].append({
+			'date': int(time.time()),
+			'userPaid': len(topay),
+			'rewards': pendingRewards
+		})
 	savePoolState(conf, pstate)
 
 	if DEBUG:

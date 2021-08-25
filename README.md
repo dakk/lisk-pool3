@@ -30,6 +30,8 @@ Fork this repo; edit config.json and modify the first lines with your settings:
 python liskpool3.py
 ```
 
+If you want to update pending balances without paying, use ```--only-update``` options
+
 
 ## Frontend
 
