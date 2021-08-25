@@ -31,7 +31,6 @@ import argparse
 from functools import reduce
 
 
-VERSION = 9
 DEBUG = False
 DRY_RUN = False
 ONLY_UPDATE = False
@@ -315,7 +314,7 @@ def main():
 if __name__ == "__main__":
 	try:
 		ver = int(requests.get('https://raw.githubusercontent.com/dakk/lisk-pool3/main/VERSION').text)
-		if ver > VERSION:
+		if ver > int(open('VERSION', 'r').read()):
 			print ('There is a new version of lisk-pool3 available. Please update.')
 	except:
 		pass
