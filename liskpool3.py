@@ -245,6 +245,9 @@ def savePayments(conf, topay):
 	for x in topay:
 		st.append(paymentCommandForLiskCore(conf, x[0], x[1]))
 
+	# Rename the file so double payments is avoided
+	st.append('mv $0 _$0_done')
+
 	s = '\n'.join(st)
 	
 	if DRY_RUN:
