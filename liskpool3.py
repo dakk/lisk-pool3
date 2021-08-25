@@ -209,22 +209,38 @@ def payPendings(conf, pstate):
 
 def paymentCommandForLiskCore(conf, address, amount):
 	FEE = '200000'
+	cmds = []
 
-	return '\n'.join([
-		'TXC=`lisk-core transaction:create 2 0 %s --offline --network %s --network-identifier %s --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' 
-			% (FEE, conf['network'], NETWORKS[conf['network']], conf['delegateName'], amount, addressToBinary(address)),
-		'echo $TXC',
-		'NONCE=$(($NONCE+1))',
-		'lisk-core transaction:send `echo $TXC|jq .transaction -r`'
-	])
+	cmds.append('TXC=`lisk-core transaction:create 2 0 %s --offline --network %s --network-identifier %s --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' 
+			% (FEE, conf['network'], NETWORKS[conf['network']], conf['delegateName'], amount, addressToBinary(address)))
+
+	if conf['multiSignature']:
+		cmds.append('TXC=`lisk-core transaction:sign `echo $TXC` --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB1 --passphrase="\`echo $PASSPHRASE\`"`')
+		cmds.append('TXC=`lisk-core transaction:sign `echo $TXC` --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB2 --passphrase="\`echo $PASSPHRASE2\`"`')
+
+	cmds.append('echo $TXC')
+	cmds.append('NONCE=$(($NONCE+1))')
+	cmds.append('lisk-core transaction:send `echo $TXC|jq .transaction -r`')
+
+	return '\n'.join(cmds)
 
 	
 def savePayments(conf, topay):
 	addr = r(conf, 'accounts?username=' + conf['delegateName'])['data'][0]['summary']['address']
+	binAddress = addressToBinary(addr)
 	st = ['echo Write passphrase: ', 'read PASSPHRASE']
 
+	if conf['multiSignature']:
+		st.append('echo Write second passphrase: ')
+		st.append('read PASSPHRASE2')
+
+		# Generate pubkey for first and second passphrase, save to variables
+		st.append('PUB1="`lisk-core account:get %s | jq .keys.mandatoryKeys[0]`"' % (binAddress))
+		st.append('PUB2="`lisk-core account:get %s | jq .keys.mandatoryKeys[1]`"' % (binAddress))
+
+
 	# Calculate initial nonce
-	st.append('NONCE=`lisk-core account:get %s | jq ".sequence.nonce" -r`' % (addressToBinary(addr)))
+	st.append('NONCE=`lisk-core account:get %s | jq ".sequence.nonce" -r`' % (binAddress))
 
 	for x in topay:
 		st.append(paymentCommandForLiskCore(conf, x[0], x[1]))

@@ -19,7 +19,8 @@ Fork this repo; edit config.json and modify the first lines with your settings:
 	"blackList": [],                                            // Addresses to skip
 	"poolState": "poollogs.json",                               // Where to save pool state
 	"paymentsFile": "payments.sh",                              // Where to save payments commands
-	"includeSelfStake": false									// True if we want to include selfstake in distribution calculations
+	"includeSelfStake": false,                                  // True if we want to include selfstake in distribution calculations
+	"multiSignature": false										// True if you're using a multisig account
 }
 ```
 
