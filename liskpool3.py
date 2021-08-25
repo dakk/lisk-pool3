@@ -22,8 +22,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# TODO: handle blacklist
-
 import base64
 import requests
 import json
@@ -32,6 +30,8 @@ import time
 import argparse 
 from functools import reduce
 
+
+VERSION = 9
 DEBUG = False
 DRY_RUN = False
 ONLY_UPDATE = False
@@ -313,4 +313,11 @@ def main():
 		print (pstate)
 	
 if __name__ == "__main__":
+	try:
+		ver = int(requests.get('https://raw.githubusercontent.com/dakk/lisk-pool3/main/VERSION').text)
+		if ver > VERSION:
+			print ('There is a new version of lisk-pool3 available. Please update.')
+	except:
+		pass
+	
 	main ()
