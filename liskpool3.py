@@ -235,6 +235,11 @@ def paymentCommandForLiskCore(conf, address, amount):
 def savePayments(conf, topay):
 	addr = r(conf, 'accounts?username=' + conf['delegateName'])['data'][0]['summary']['address']
 	binAddress = addressToBinary(addr)
+	
+	binFromAddress = addressToBinary(conf['fromAddress'])
+	if not (binFromAddress):
+		binFromAddress = binAddress
+		
 	st = ['echo Write passphrase: ', 'read PASSPHRASE']
 
 	if conf['multiSignature']:
@@ -242,12 +247,12 @@ def savePayments(conf, topay):
 		st.append('read PASSPHRASE2')
 
 		# Generate pubkey for first and second passphrase, save to variables
-		st.append('PUB1="`lisk-core account:get %s | jq .keys.mandatoryKeys[0]`"' % (binAddress))
-		st.append('PUB2="`lisk-core account:get %s | jq .keys.mandatoryKeys[1]`"' % (binAddress))
+		st.append('PUB1="`lisk-core account:get %s | jq .keys.mandatoryKeys[0]`"' % (binFromAddress))
+		st.append('PUB2="`lisk-core account:get %s | jq .keys.mandatoryKeys[1]`"' % (binFromAddress))
 
 
 	# Calculate initial nonce
-	st.append('NONCE=`lisk-core account:get %s | jq ".sequence.nonce" -r`' % (binAddress))
+	st.append('NONCE=`lisk-core account:get %s | jq ".sequence.nonce" -r`' % (binFromAddress))
 
 	for x in topay:
 		st.append(paymentCommandForLiskCore(conf, x[0], x[1]))
