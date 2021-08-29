@@ -39,6 +39,8 @@ The software has a tiny frontend written in angular. In order to create and upda
 
 ```bash
 npm install -g @angular/cli
+cd pool-frontend
+npm install
 ```
 
 And update with:
