@@ -10,4 +10,5 @@
 	"paymentsFile": "payments.sh",
 	"includeSelfStake": false,
 	"multiSignature": true
+	"fromAddress": ""
 }
