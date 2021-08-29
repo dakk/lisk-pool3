@@ -21,7 +21,7 @@ Fork this repo; edit config.json and modify the first lines with your settings:
 	"paymentsFile": "payments.sh",                              // Where to save payments commands
 	"includeSelfStake": false,                                  // True if we want to include selfstake in distribution calculations
 	"multiSignature": false,				    // True if you're using a multisig account
-	"fromAddress": ""					    // Address from where to make the payments. Unchanged if the payments will be made from the delegate's address
+	"fromAddress": ""					    // Address from where to make the payments. Remove if the payments will be made from the delegate's address
 }
 ```
 
