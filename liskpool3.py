@@ -236,8 +236,9 @@ def savePayments(conf, topay):
 	addr = r(conf, 'accounts?username=' + conf['delegateName'])['data'][0]['summary']['address']
 	binAddress = addressToBinary(addr)
 	
-	binFromAddress = addressToBinary(conf['fromAddress'])
-	if not (binFromAddress):
+	if 'fromAddress' in conf and (conf['fromAddress']):
+		binFromAddress = addressToBinary(conf['fromAddress'])
+	else:
 		binFromAddress = binAddress
 		
 	st = ['echo Write passphrase: ', 'read PASSPHRASE']
