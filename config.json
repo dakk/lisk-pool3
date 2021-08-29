@@ -9,6 +9,6 @@
 	"poolState": "poollogs.json",
 	"paymentsFile": "payments.sh",
 	"includeSelfStake": false,
-	"multiSignature": true
+	"multiSignature": true,
 	"fromAddress": ""
 }
