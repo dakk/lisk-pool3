@@ -64,6 +64,8 @@ def r(conf, ep):
 
 # Parse command line args
 def parseArgs():
+	global ONLY_UPDATE, DRY_RUN
+
 	parser = argparse.ArgumentParser(description='DPOS delegate pool script')
 	parser.add_argument('-c', metavar='config.json', dest='cfile', action='store',
 		           default='config.json',
