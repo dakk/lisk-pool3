@@ -185,6 +185,7 @@ def calculateRewards(conf, pstate, votes, pendingRewards):
 	for x in votes:
 		top = int(pendingRewards * x['percentage'] / 100.)
 		
+		# If x is the delegate
 		if 'username' in x and x['username'] == conf['delegateName']:
 			print ('Delegate %s got %.8f lsk of reward' % (x['username'], top / 100000000.))
 
@@ -193,6 +194,7 @@ def calculateRewards(conf, pstate, votes, pendingRewards):
 			else:
 				pstate['paid'][x['address']] += top
 				
+		# Otherwise increase pending for the address
 		else:
 			if not (x['address'] in pstate['pending']):
 				pstate['pending'][x['address']] = top
@@ -203,6 +205,7 @@ def calculateRewards(conf, pstate, votes, pendingRewards):
 def payPendings(conf, pstate):
 	paylist = []
 	
+	# For each pending balance, check if meets requirements for payment
 	for x in pstate['pending']:
 		if (not ONLY_UPDATE) and pstate['pending'][x] > int (conf['minPayout'] * 100000000):
 			paylist.append([x, pstate['pending'][x]])
@@ -225,7 +228,7 @@ def paymentCommandForLiskCore(conf, address, amount):
 
 	if conf['multiSignature']:
 		cmds.append('TXC=`lisk-core transaction:sign `echo $TXC` --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB1 --passphrase="\`echo $PASSPHRASE\`"`')
-		cmds.append('TXC=`lisk-core transaction:sign `echo $TXC` --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB2 --passphrase="\`echo $PASSPHRASE2\`"`')
+		cmds.append('TXC=`lisk-core transaction:sign `echo $TXC` --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB1 --passphrase="\`echo $PASSPHRASE2\`"`')
 
 	cmds.append('echo $TXC')
 	cmds.append('NONCE=$(($NONCE+1))')
