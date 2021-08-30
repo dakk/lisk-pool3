@@ -184,22 +184,23 @@ def getForgedSinceLastPayout(conf, pstate):
 def calculateRewards(conf, pstate, votes, pendingRewards):
 	for x in votes:
 		top = int(pendingRewards * x['percentage'] / 100.)
+		addr = x['address']
 		
 		# If x is the delegate
 		if 'username' in x and x['username'] == conf['delegateName']:
 			print ('Delegate %s got %.8f lsk of reward' % (x['username'], top / 100000000.))
 
-			if not (x['address'] in pstate['paid']):
-				pstate['paid'][x['address']] = top
+			if not (addr in pstate['paid']):
+				pstate['paid'][addr] = top
 			else:
-				pstate['paid'][x['address']] += top
+				pstate['paid'][addr] += top
 				
 		# Otherwise increase pending for the address
 		else:
-			if not (x['address'] in pstate['pending']):
-				pstate['pending'][x['address']] = top
+			if not (addr in pstate['pending']):
+				pstate['pending'][addr] = top
 			else:
-				pstate['pending'][x['address']] += top
+				pstate['pending'][addr] += top
 	return pstate
 	
 def payPendings(conf, pstate):
@@ -207,13 +208,15 @@ def payPendings(conf, pstate):
 	
 	# For each pending balance, check if meets requirements for payment
 	for x in pstate['pending']:
-		if (not ONLY_UPDATE) and pstate['pending'][x] > int (conf['minPayout'] * 100000000):
-			paylist.append([x, pstate['pending'][x]])
+		apend = pstate['pending'][x]
+
+		if (not ONLY_UPDATE) and (apend > int (conf['minPayout'] * 100000000)):
+			paylist.append([x, apend])
 			
 			if not (x in pstate['paid']):
-				pstate['paid'][x] = pstate['pending'][x]
+				pstate['paid'][x] = apend
 			else:
-				pstate['paid'][x] += pstate['pending'][x]
+				pstate['paid'][x] += apend
 
 			pstate['pending'][x] = 0
 				
@@ -273,6 +276,7 @@ def savePayments(conf, topay):
 		f.write(s)
 		f.close()
 	print('Saved to %s' % (conf['paymentsFile']))
+
 
 def main():
 	conf = parseArgs()
