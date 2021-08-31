@@ -55,7 +55,7 @@ export class DashboardComponent {
       if (k in this.poolLogs.paid)
         c.rewards = this.poolLogs.paid[k];
 
-      this.balances.push(c);
+        this.balances.push(c);
     }
 
     for (let k in this.poolLogs.paid) {

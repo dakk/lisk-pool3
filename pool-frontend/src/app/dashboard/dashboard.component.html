@@ -43,9 +43,9 @@
 </mat-grid-list>
 
 
-  <mat-grid-list cols="2" rowHeight="350px">
+  <mat-grid-list cols="2">
     <mat-grid-tile [colspan]="(cards|async)?.history?.cols" [rowspan]="(cards|async)?.history?.rows">
-      <mat-card class="dashboard-card">
+      <mat-card class="dashboard-card list">
         <mat-card-header>
           <mat-card-title>
             Payouts History
@@ -84,7 +84,7 @@
 
 
     <mat-grid-tile [colspan]="(cards|async)?.balances?.cols" [rowspan]="(cards|async)?.balances?.rows">
-      <mat-card class="dashboard-card">
+      <mat-card class="dashboard-card list">
         <mat-card-header>
           <mat-card-title>
             Balances

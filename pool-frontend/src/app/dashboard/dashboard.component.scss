@@ -30,6 +30,12 @@ table {
   font-size: 170%;
 }
 
+mat-card.list {
+  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
 s1 {
 
 }
