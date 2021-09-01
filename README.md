@@ -47,8 +47,10 @@ npm install
 And update with:
 
 ```bash
-bash update_frontend.sh
+bash update_frontend.sh [base_directory]
 ```
+
+Where base directory is the base directory of the frontend (leave blank if it stays in the toplevel).
 
 
 ## License
