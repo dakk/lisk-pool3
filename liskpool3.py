@@ -178,8 +178,7 @@ def getForgedSinceLastPayout(conf, pstate):
 			'producedBlocks': int(acc['producedBlocks'])
 		}
 	
-	print ('%d produced blocks since last payout, %.8f lsk to pay' % (dBlocks, toPay / 100000000.))	
-	return toPay, pstate
+	return toPay, pstate, dBlocks
 	
 def calculateRewards(conf, pstate, votes, pendingRewards):
 	for x in votes:
@@ -282,9 +281,11 @@ def main():
 	conf = parseArgs()
 	pstate = loadPoolState(conf)
 	votes = getVotesPercentages(conf)
-	pendingRewards, pstate = getForgedSinceLastPayout(conf, pstate)
+	rewards, pstate, dBlocks = getForgedSinceLastPayout(conf, pstate)
 	
-	pendingRewards = int(pendingRewards * conf['sharingPercentage'] / 100.)
+	pendingRewards = int(rewards * conf['sharingPercentage'] / 100.)
+
+	print ('%d produced blocks since last payout, %.8f lsk to pay' % (dBlocks, pendingRewards / 100000000.))	
 	
 	pstate = calculateRewards(conf, pstate, votes, pendingRewards)
 	pstate, topay = payPendings(conf, pstate)
