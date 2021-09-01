@@ -313,12 +313,13 @@ def main():
 	# Save payments
 	if not ONLY_UPDATE:
 		savePayments(conf, topay)
+		paidRewards = reduce(lambda x,y: x + int(y[1]), topay, 0)
 	
 		# Save state
 		pstate['history'].append({
 			'date': int(time.time()),
 			'userPaid': len(topay),
-			'rewards': pendingRewards
+			'rewards': paidRewards
 		})
 	savePoolState(conf, pstate)
 
