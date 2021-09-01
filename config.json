@@ -1,7 +1,7 @@
 {
-	"apiEndpoint": "https://testnet-service.lisk.io/api/v2/",
+	"apiEndpoint": "https://service.lisk.io/api/v2/",
 	"interactive": true,
-	"network": "testnet",
+	"network": "mainnet",
 	"delegateName": "dakk",
 	"sharingPercentage": 15,
 	"minPayout": 0.01,

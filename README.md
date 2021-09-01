@@ -13,8 +13,8 @@ Fork this repo; edit config.json and modify the first lines with your settings:
 
 ```js
 {
-	"apiEndpoint": "https://testnet-service.lisk.io/api/v2/",   // Node uri
-	"network": "testnet",					    // Or mainnet
+	"apiEndpoint": "https://service.lisk.io/api/v2/",   		// Node uri
+	"network": "mainnet",									    // Or testnet
 	"interactive": true,                                        // Ask for confirmation
 	"delegateName": "dakk",                                     // Delegate name      
 	"sharingPercentage": 15,                                    // % of sharing
