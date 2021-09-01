@@ -2,6 +2,15 @@ import unittest
 import liskpool3
 
 
+
+class TestAddressToBinary(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        super(TestAddressToBinary, self).__init__(*args, **kwargs)
+
+    def test_1(self):
+        self.assertEqual(liskpool3.addressToBinary("lsks4bdyynsyxxrxxgractch2v6jen8xxsrmc47b8"), "da4da8c4fb88432087f2c8e63ee04ae58ef08772")
+
+
 class TestGetVotesPercentages(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(TestGetVotesPercentages, self).__init__(*args, **kwargs)
