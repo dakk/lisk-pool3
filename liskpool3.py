@@ -56,11 +56,16 @@ def addressToBinary(address):
 	s = base64.b32decode(s)
 	return s.hex()
 
-def r(conf, ep):
+def req(conf, ep):
 	uri = conf['apiEndpoint'] + ep
 	d = requests.get (uri)
 	return d.json ()
 
+r = req
+
+def injectRequestHandler(rr):
+	global r
+	r = rr
 
 # Parse command line args
 def parseArgs():
@@ -225,6 +230,7 @@ def paymentCommandForLiskCore(conf, address, amount):
 	FEE = '200000'
 	cmds = []
 
+	cmds.append('\nSending %d to %s' % (amount / 10**8, address))
 	cmds.append('TXC=`lisk-core transaction:create 2 0 %s --offline --network %s --network-identifier %s --nonce=\`echo $NONCE\` --passphrase="\`echo $PASSPHRASE\`" --asset=\'{"data": "%s payouts", "amount":%s,"recipientAddress":"%s"}\'`' 
 			% (FEE, conf['network'], NETWORKS[conf['network']], conf['delegateName'], amount, addressToBinary(address)))
 
