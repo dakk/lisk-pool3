@@ -1,5 +1,8 @@
 # Lisk pool distribution software (v3)
 
+![Test](https://github.com/dakk/lisk-pool3/actions/workflows/python-app.yml/badge.svg)
+
+
 Redistribution software for Lisk delegate on mainnet (and testnet) after the migration to Lisk3. 
 
 **Still WIP, use at your own risk***
