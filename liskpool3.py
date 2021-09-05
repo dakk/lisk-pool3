@@ -259,8 +259,8 @@ def savePayments(conf, topay):
 		st.append('read PASSPHRASE2')
 
 		# Generate pubkey for first and second passphrase, save to variables
-		st.append('PUB1="`lisk-core account:get %s | jq .keys.mandatoryKeys[1] -r`"' % (binAddress))
-		st.append('PUB2="`lisk-core account:get %s | jq .keys.mandatoryKeys[0] -r`"' % (binAddress))
+		st.append('PUB1="`lisk-core account:get %s | jq .keys.mandatoryKeys[0] -r`"' % (binAddress))
+		st.append('PUB2="`lisk-core account:get %s | jq .keys.mandatoryKeys[1] -r`"' % (binAddress))
 
 
 	# Calculate initial nonce
