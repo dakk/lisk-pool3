@@ -105,7 +105,6 @@ def parseArgs():
 		DRY_RUN = args.dryrun
 
 	if args.onlyupdate != None:
-		print ("Only updating pendings")
 		ONLY_UPDATE = args.onlyupdate
 		
 	if args.alwaysyes:
@@ -236,11 +235,11 @@ def paymentCommandForLiskCore(conf, address, amount):
 
 	if conf['multiSignature']:
 		cmds.append('TXC=`lisk-core transaction:sign $TXC --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB1 --passphrase="\`echo $PASSPHRASE\`" | jq .transaction -r`')
-		cmds.append('TXC=`lisk-core transaction:sign $TXC --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB1 --passphrase="\`echo $PASSPHRASE2\`"`')
+		cmds.append('TXC=`lisk-core transaction:sign $TXC --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB1 --passphrase="\`echo $PASSPHRASE2\`" |jq .transaction -r`')
 
 	cmds.append('echo $TXC')
 	cmds.append('NONCE=$(($NONCE+1))')
-	cmds.append('lisk-core transaction:send `echo $TXC|jq .transaction -r`')
+	cmds.append('lisk-core transaction:send `echo $TXC`')
 
 	return '\n'.join(cmds)
 
