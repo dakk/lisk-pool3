@@ -28,6 +28,12 @@ Fork this repo; edit config.json and modify the first lines with your settings:
 }
 ```
 
+## Dependencies
+
+- python3
+- requests python module (```pip3 install requests```)
+- a synced lisk node
+
 ## Run
 
 ```bash
@@ -36,6 +42,22 @@ python liskpool3.py
 
 If you want to update pending balances without paying, use ```--only-update``` option
 
+
+## Troubleshooting
+
+### Missing genesis_block.json error
+
+If you get this message when you run the payments.sh file:
+
+```
+Error: ENOENT: no such file or directory, open 
+'/home/lisk/lisk-core/config/mainnet/genesis_block.json'
+Error: Missing 1 required arg:
+transaction  The transaction to be signed encoded as hex string
+```
+
+You can fix it by copying the file ```/home/lisk/.lisk/lisk-core/config/mainnet/genesis_block.json```
+to ```/home/lisk/lisk-core/config/mainnet/``` directory
 
 ## Frontend
 
