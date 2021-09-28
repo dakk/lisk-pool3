@@ -175,6 +175,7 @@ def getVotesPercentages(conf):
 def getForgedSinceLastPayout(conf, pstate):
 	acc = r(conf, 'accounts?username=' + conf['delegateName'])['data'][0]['dpos']['delegate']
 	
+	print(acc, pstate)
 	toPay = int(acc['rewards']) - int(pstate['lastPayout']['rewards'])
 	dBlocks = int(acc['producedBlocks']) - int(pstate['lastPayout']['producedBlocks'])
 
