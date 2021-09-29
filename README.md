@@ -13,7 +13,7 @@ Fork this repo; edit config.json and modify the first lines with your settings:
 
 ```js
 {
-	"apiEndpoint": "https://service.lisk.io/api/v2/",   		// Node uri
+	"apiEndpoint": "https://mainnet-service.lisktools.eu/api/v2/",   		// Node uri
 	"network": "mainnet",									    // Or testnet
 	"interactive": true,                                        // Ask for confirmation
 	"delegateName": "dakk",                                     // Delegate name      

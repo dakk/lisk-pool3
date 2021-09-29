@@ -51,7 +51,6 @@ NETWORKS = {
 	'mainnet': '4c09e6a781fc4c7bdb936ee815de8f94190f8a7519becd9de2081832be309a99'
 }
 
-
 def addressToBinary(address):
 	B32_STD = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
 	B32_DICT = "zxvcpmbn3465o978uyrtkqew2adsjhfg"
@@ -62,10 +61,20 @@ def addressToBinary(address):
 	s = base64.b32decode(s)
 	return s.hex()
 
-def req(conf, ep):
-	uri = conf['apiEndpoint'] + ep
-	d = requests.get (uri)
-	return d.json ()
+def req(conf, ep, checkRewardField=False):
+	while True:
+		uri = conf['apiEndpoint'] + ep
+		d = requests.get (uri)
+		j = d.json ()
+
+		if checkRewardField:
+			if 'rewards' in j['data'][0]['dpos']['delegate']:
+				return j
+			else:
+				print ('Lisk-service failed to provide rewards data, retrying in few seconds...')
+				time.sleep(10)
+		else:
+			return j
 
 r = req
 
@@ -173,7 +182,7 @@ def getVotesPercentages(conf):
 	return votes
 	
 def getForgedSinceLastPayout(conf, pstate):
-	acc = r(conf, 'accounts?username=' + conf['delegateName'])['data'][0]['dpos']['delegate']
+	acc = r(conf, 'accounts?username=' + conf['delegateName'], True)['data'][0]['dpos']['delegate']
 	
 	print(acc, pstate)
 	toPay = int(acc['rewards']) - int(pstate['lastPayout']['rewards'])
