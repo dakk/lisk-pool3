@@ -253,8 +253,10 @@ def paymentCommandForLiskCore(conf, address, amount):
 		cmds.append('TXC=`lisk-core transaction:sign $TXC --mandatory-keys=$PUB1 --mandatory-keys=$PUB2 --sender-public-key=$PUB1 --passphrase="\`echo $PASSPHRASE2\`" |jq .transaction -r`')
 
 	cmds.append('echo $TXC')
+	cmds.append('sleep 5')
 	cmds.append('NONCE=$(($NONCE+1))')
 	cmds.append('lisk-core transaction:send `echo $TXC`')
+	cmds.append('sleep 5')
 
 	return '\n'.join(cmds)
 
