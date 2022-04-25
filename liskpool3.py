@@ -164,8 +164,14 @@ def loadPoolState(conf):
 		
 		
 def getVotesPercentages(conf):
-	votes = r(conf, 'votes_received?limit=100&offset=0&aggregate=true&username=' + conf['delegateName'])['data']['votes']
-	
+	d = r(conf, 'votes_received?limit=100&offset=0&aggregate=true&username=' + conf['delegateName'])
+	votes = d['data']['votes']
+
+	if d['meta']['total'] > 100:
+		for x in range(100, d['meta']['total'], 100):
+			d = r(conf, 'votes_received?limit=100&offset=' + str(x) + '&aggregate=true&username=' + conf['delegateName'])
+			votes += d['data']['votes']
+
 	if not conf['includeSelfStake']:
 		votes = [x for x in votes if ('username' not in x ) or ('username' in x and x['username'] != conf['delegateName'])]
 
