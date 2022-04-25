@@ -25,6 +25,9 @@ class TestGetVotesPercentages(unittest.TestCase):
                         {"address": "B",
                          "amount": "10000000"},
                     ]
+                },
+                "meta": {
+                    "total": 2
                 }
             }
 
@@ -49,6 +52,9 @@ class TestGetVotesPercentages(unittest.TestCase):
                         {"address": "B",
                          "amount": "10000000"},
                     ]
+                },
+                "meta": {
+                    "total": 2
                 }
             }
 
@@ -74,6 +80,9 @@ class TestGetVotesPercentages(unittest.TestCase):
                         {"address": "B",
                          "amount": "10000000"},
                     ]
+                },
+                "meta": {
+                    "total": 2
                 }
             }
 
@@ -99,6 +108,9 @@ class TestGetVotesPercentages(unittest.TestCase):
                         {"address": "B",
                          "amount": "10000000"},
                     ]
+                },
+                "meta": {
+                    "total": 2
                 }
             }
 
