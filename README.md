@@ -5,7 +5,7 @@
 
 Redistribution software for Lisk delegate on mainnet (and testnet) after the migration to Lisk3. 
 
-**Still WIP, use at your own risk***
+**Use at your own risk, software provided as-is**
 
 
 ## Configuration

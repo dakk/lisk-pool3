@@ -96,6 +96,9 @@ def parseArgs():
 	parser.add_argument('--dry-run', dest='dryrun', action='store_const',
 		           default=False, const=True,
 		           help='dry run (default: no)')
+	parser.add_argument('--force', dest='force', action='store_const',
+		           default=False, const=True,
+		           help='disable all security checks (default: no)')
 	parser.add_argument('--only-update', dest='onlyupdate', action='store_const',
 		           default=False, const=True,
 		           help='only update pendings (default: no)')
@@ -115,6 +118,9 @@ def parseArgs():
 	# Override minpayout from command line arg
 	if args.minpayout != None:
 		conf['minPayout'] = args.minpayout
+
+	if args.force != None:
+		conf['force'] = args.force
 
 	if args.dryrun != None:
 		DRY_RUN = args.dryrun
@@ -192,6 +198,20 @@ def getForgedSinceLastPayout(conf, pstate):
 	
 	toPay = int(acc['rewards']) - int(pstate['lastPayout']['rewards'])
 	dBlocks = int(acc['producedBlocks']) - int(pstate['lastPayout']['producedBlocks'])
+	
+	elapsed = int ((time.time() - pstate['lastPayout']['date']) / 60.)
+	estimatedBlocks = int(elapsed / 15)
+
+
+	if dBlocks > estimatedBlocks:
+		print ('WARNING: Estimated blocks forged since last payout: %d (estimated: %d)' % (dBlocks, estimatedBlocks))
+		if not conf['force'] and not conf['interactive']:
+			print ('Use --force to force payout')
+			sys.exit(0)
+			
+		if conf['interactive']:
+			if not input ('Continue anyway? (y/n) ') == 'y':
+				sys.exit(0)
 
 	if toPay <= 0 or dBlocks <= 0:
 		toPay = 0
